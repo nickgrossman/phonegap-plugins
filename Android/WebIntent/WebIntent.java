@@ -13,8 +13,9 @@ import android.net.Uri;
 import android.util.Log;
 import android.text.Html;
 
-import org.apache.cordova.api.Plugin;
-import org.apache.cordova.api.PluginResult;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PluginResult;
+import org.apache.cordova.CallbackContext;
 
 /**
  * WebIntent is a PhoneGap plugin that bridges Android intents and web
@@ -27,9 +28,10 @@ import org.apache.cordova.api.PluginResult;
  * @author boris@borismus.com
  * 
  */
-public class WebIntent extends Plugin {
+public class WebIntent extends CordovaPlugin {
 
     private String onNewIntentCallback = null;
+    public CallbackContext callbackContext;
 
     /**
      * Executes the request and returns PluginResult.
@@ -142,7 +144,7 @@ public class WebIntent extends Plugin {
         if (this.onNewIntentCallback != null) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, intent.getDataString());
             result.setKeepCallback(true);
-            this.success(result, this.onNewIntentCallback);
+            this.callbackContext.sendPluginResult(result);
         }
     }
 
